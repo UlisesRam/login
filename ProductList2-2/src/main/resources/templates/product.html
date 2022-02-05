@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>All Products - RedStore  Ecommerce Website</title>
+
+<link th:href="@{/css/style2.css}" rel="stylesheet">
+
+
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+	href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+	rel="stylesheet">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous">
+
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+	integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+	crossorigin="anonymous"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+	integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+	crossorigin="anonymous"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+	integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+	crossorigin="anonymous"></script>
+
+
+</head>
+
+<body>
+
+
+	<div class="container">
+		<div class="navbar">
+			<div class="logo">
+				<a th:href="@{/home}"><img src="images/logo.png" width="325px"
+					alt="main logo"></a>
+			</div>
+
+
+			<nav>
+				<!-- <ul id="MenuItems">
+                    <li><a href="index.html">Home</a></li>
+                   <li><a href="products.html">Products</a></li>
+                    <li><a href="">About</a></li>
+                    <li><a href="">Contact</a></li>
+                    <li><a href="account.html">Account</a></li>
+                </ul>-->
+				<a href="#focus" class="btn-category_item btn" category="all">All
+					Products </a>
+			</nav>
+			<ul>
+				<li class="submenu"><img src="images/cart.png" alt="cart"
+					width="30px" height="30px">
+					<div id="cart">
+						<table id="cart-list">
+							<thead>
+								<tr>
+									<th>Image</th>
+									<th>Name</th>
+									<th>Price</th>
+									<th>Quantity</th>
+									<th>Category</th>
+									<th>Amount</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody></tbody>
+
+							<tr>
+								<td>Total amount:</td>
+								<td class="price" id="total-amount">0</td>
+							</tr>
+						</table>
+
+
+
+
+
+						<a href="#" id="clean-cart" class="btn btn-primary">Clean cart</a>
+						<a href="#" id="payment" class="btn btn-success">Payment</a>
+
+						<!----------------------- COUPON --------------------->
+						<div class="coupon-apply">
+							<input id="coupon" class="coupon" type="text"
+								placeholder="Enter Coupon">
+							<button id="btn-apply-coupon" onclick="getPrice()"
+								class="btn btn-light">Apply</button>
+							<!--<input type="text" id="hidden-value" value="230" hidden>-->
+						</div>
+					</div>
+		</div>
+		</li>
+		</ul>
+		<img src="images/menu.png" class="menu-icon" onclick="menutoggle()">
+
+	</div>
+
+
+	</div>
+	<!-- MODIFY BUTTONS - ALL HAVE THE SAME SIZE - ADD MARGIN TOP  -->
+	
+	<div class="container-fluid">
+		<div class="row">
+			<nav class="nav" style="margin-left: 150px;" >
+				<a href="#focus" class="btn-category_item btn" category="cname">Volleyball</a>
+				
+				<a href="#focus" class="btn-category_item btn" category="Football Soccer" style="margin-left: 10px;">Football Soccer</a> 
+				<a href="#focus" class="btn-category_item btn" category="Basketball" style="margin-left: 10px;">Basketball</a>
+				<a href="#focus" class="btn-category_item btn" category="NFL" style="margin-left: 10px;">NFL</a> 
+				<a href="#focus" class="btn-category_item btn" category="Fitness Gadgets" style="margin-left: 10px;">Fitness Gadgets </a>
+|				<a href="#focus" class="btn-category_item btn" category="Swimming" style="margin-left: 10px;">Swimming</a>
+					 <a href="#focus"
+					class="btn-category_item btn" category="Athletics"
+					style="margin-left: 10px;">Athletics</a> <a href="#focus"
+					class="btn-category_item btn" category="Golf"
+					style="margin-left: 10px;">Golf</a> <a href="#focus"
+					class="btn-category_item btn" category="Baseball"
+					style="margin-left: 10px;">Baseball</a>
+			</nav>
+		</div>
+
+		<!-- FOCUS SOCCER -->
+			<div th:each="product, counterVar : ${products}">
+		
+		
+		<section id="item-list" class="products-list" style="margin-left: 100px;">
+				<a name="focus"></a>
+				<div class="product-item" category="Football Soccer">
+					<span class="category" hidden>Football Soccer</span>
+					<div class="col-4">
+						<img th:src="@{/images/} + ${product.pimage}">
+						<h4>[[${product.pcategory}]]</h4>
+						<div class="rating">
+							<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
+								class="fa fa-star"></i> <i class="fa fa-star"></i> <i
+								class="fa fa-star-o"></i>
+						</div>
+						<p class="price">50.00</p>
+						<button type="button" class="btn btn-outline-info btn-small"
+							data-toggle="modal" data-target="#exampleModalCenter">Info</button>
+						<button data-id="1" type="button"
+							class="btn btn-outline-success btn-small add-cart">Add
+							to cart</button>
+						<a data-id="1" hidden></a>
+					</div>
+				</div>
+		</section>
+			</div>
+		<!-- FOCUS SOCCER -->
+
+
+
+
+	</div>
+	</div>
+	</div>
+
+
+	<div class="modal fade" id="exampleModalCenter" tabindex="-1"
+		role="dialog" aria-labelledby="exampleModalCenterTitle"
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLongTitle">
+						<img src="images/logo.png" width="125px" alt="main logo">
+					</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="small-container single-product">
+						<div class="row">
+							<div class="col-2">
+								<img src="images/soccer1.PNG" alt="img gallery" width="100%"
+									id="ProductImg">
+							</div>
+							<div class="col-2">
+
+								<h4>Soccer Uniform style 1</h4>
+								<h4>$50.00</h4>
+
+								<input type="number" value="1">
+								<button type="button" class="btn btn-outline-success btn-small">Add
+									to cart</button>
+								<h5>
+									Product Details <i class="fa fa-indent"></i>
+								</h5>
+								<br>
+								<p>Lorem ipsum dolor sit amet consectetur adipisicing elit.
+									Quo consequuntur aspernatur nostrum earum ea. Sapiente unde
+									minima modi eum quibusdam earum quo. Totam provident cupiditate
+									suscipit pariatur ipsa ducimus minus?</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<div class="modal fade" id="exampleModalPromo" tabindex="-1"
+		role="dialog" aria-labelledby="exampleModalCenterTitle"
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLongTitle">
+						<img src="images/logo.png" width="125px" alt="main logo">
+					</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="small-container single-product">
+						<div class="row">
+							<div class="col-2">
+								<img src="images/soccer2.jpg" alt="img gallery" width="100%"
+									id="ProductImg">
+							</div>
+							<div class="col-2">
+
+								<h4>Soccer Uniform style 2</h4>
+								<h4>
+									<p>
+										<span style="text-decoration: line-through; color: red;">$50.00</span>
+										<span style="color: green; text-decoration: solid;">$45.00</span>
+									</p>
+								</h4>
+
+								<input type="number" value="1">
+								<button type="button" class="btn btn-outline-success btn-small">Add
+									to cart</button>
+								<h5>
+									Product Details <i class="fa fa-indent"></i>
+								</h5>
+								<br>
+								<p>Lorem ipsum dolor sit amet consectetur adipisicing elit.
+									Quo consequuntur aspernatur nostrum earum ea. Sapiente unde
+									minima modi eum quibusdam earum quo. Totam provident cupiditate
+									suscipit pariatur ipsa ducimus minus?</p>
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+
+	<!------------------ Footer ---------------->
+	<footer class="footer">
+		<div class="container">
+			<div class="row">
+				<div class="footer-col-2">
+					<img src="images/logo-white.png">
+					<p>Our purpose is to sustainably make the pleasure and benefits
+						of sports accesible to the many.</p>
+				</div>
+				<div class="footer-col-3">
+					<h3>Useful Links</h3>
+					<ul>
+						<li>Coupons</li>
+						<li>Blog Post</li>
+						<li>Return Policy</li>
+						<li>Join Affiliate</li>
+					</ul>
+				</div>
+				<div class="footer-col-4">
+					<h3>Follow Us</h3>
+					<ul>
+						<li>Facebook</li>
+						<li>Twitter</li>
+						<li>Instagram</li>
+						<li>YouTube</li>
+					</ul>
+				</div>
+			</div>
+			<hr>
+			<p class="copyright">Copyright 2021 - MX-Tribe.</p>
+		</div>
+	</footer>
+
+	<!-- JS for Toggle Menu -->
+	<script>
+		var MenuItems = document.getElementById("MenuItems");
+		MenuItems.style.maxHeight = "0px";
+
+		function menutoggle() {
+			if (MenuItems.style.maxHeight == "0px") {
+				MenuItems.style.maxHeight = "200px";
+			} else {
+				MenuItems.style.maxHeight = "0px";
+			}
+		}
+	</script>
+
+	<script type="text/javascript" th:src="@{/js2/app.js}"></script>
+	<script type="text/javascript" th:src="@{/js2/jquery-3.2.1.js}"></script>
+	<script type="text/javascript" th:src="@{/js2/script.js}"></script>
+
+
+
+</body>
+
+</html>

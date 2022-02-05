@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Admin</title>
+<link th:href="@{/css/style.css}" rel="stylesheet">
+<link th:href="@{/css/font/typicons.css}" rel="stylesheet">
+</head>
+
+<body>
+	<div class="container-scroller">
+		<nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+			<div
+				class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+				<!-- change index.html -->
+				<a class="navbar-brand brand-logo" href="index.html"><img 
+					src="images/logo.png" alt="logo" /></a> <a
+					class="navbar-brand brand-logo-mini" href="index.html"><img
+					src="images/logo.png" alt="logo" /></a>
+			</div>
+			<!-- data-toggle="dropdown" -->
+			<div
+				class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+				<ul class="navbar-nav navbar-nav-right">
+					<li class="nav-item nav-profile dropdown"><a
+						class="nav-link dropdown-toggle  pl-0 pr-0" href="#"
+						data-toggle="dropdown" id="profileDropdown"> <i 
+							class="typcn typcn-user-outline mr-0"></i> <span
+							class="nav-profile-name">Evan Morales</span>
+					</a>
+						<div class="dropdown-menu dropdown-menu-right navbar-dropdown"
+							aria-labelledby="profileDropdown">
+							<!-- Logout -->
+							<a class="dropdown-item"> <i
+								class="typcn typcn-power text-primary"></i> Logout
+							</a>
+						</div></li>
+				</ul>
+				<button
+					class="navbar-toggler navbar-toggler-right d-lg-none align-self-center"
+					type="button" data-toggle="offcanvas">
+					<span class="typcn typcn-th-menu"></span>
+				</button>
+			</div>
+		</nav>
+		<div class="container-fluid page-body-wrapper">
+			<nav class="sidebar sidebar-offcanvas" id="sidebar">
+				<ul class="nav">
+					<li class="nav-item">
+						<div class="d-flex sidebar-profile">
+							<div class="sidebar-profile-name">
+								<p class="sidebar-name">Evan Morales</p>
+								<p class="sidebar-designation">Welcome</p>
+							</div>
+						</div>
+						<div class="nav-search">
+							<div class="input-group">
+								<input type="text" class="form-control"
+									placeholder="Type to search..." aria-label="search"
+									aria-describedby="search">
+								<div class="input-group-append">
+									<span class="input-group-text" id="search"> <i
+										class="typcn typcn-zoom"></i>
+									</span>
+								</div>
+							</div>
+						</div>
+						<p class="sidebar-menu-title">Dash menu</p>
+					</li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/admin}">
+							<i class="typcn typcn-tag menu-icon"></i> <span
+							class="menu-title">Products</span>
+					</a></li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/coupon}">
+							<i class="typcn typcn-film menu-icon"></i> <span
+							class="menu-title">Cupons</span>
+					</a></li>
+					<li class="nav-item"><a class="nav-link" 
+						th:href="@{/promotional-events}"> <i
+							class="typcn typcn-eye menu-icon"></i> <span class="menu-title">Promotional
+								Events</span>
+					</a></li>
+
+
+				</ul>
+			</nav>
+			
+			<!-- partial -->
+			<div class="main-panel">
+				<div class="content-wrapper">
+					<div class="row">
+						<div class="col-sm-6">
+							
+							<!-- Add button - modal: addcoupon -->
+							<div>
+								<button type="button" 
+									class="btn btn-primary btn-rounded btn-icon"
+									data-toggle="modal" data-target="#addcoupon">
+									<i class="typcn typcn-plus"></i>
+								</button>
+							</div>
+							<!-- add button -->
+							<br>
+						</div>
+					</div>
+
+					<!-- Table - Coupon List - Iterable -->
+					<div class="row">
+						<div class="col-lg-12 grid-margin stretch-card">
+							<div class="card">
+								<div class="card-body">
+									<h4 class="card-title">Coupons</h4>
+									<div class="table-responsive">
+										<div class="table-responsive">
+											<div th:if="${coupons != null and !coupons.empty}">
+												<table class="table table-hover">
+													<thead class="table-dark">
+														<tr>
+															<th>#</th>
+															<th>ID</th>
+															<th>Name</th>
+															<th>Discount %</th>
+															<th>Type</th>
+															<th>Prom Event</th>
+															<th>Categoty</th>
+															<th></th> <!-- edit buttom -->
+															<th></th> <!-- delete buttom -->
+														</tr>
+													</thead>
+													<!-- Iteration of coupons elements: ControllerCoupon -->
+													<tbody>
+														<tr th:each="coupon, counter : ${coupons}">
+															<td>[[${counter.count}]]</td>
+															<td>[[${coupon.COUPONS_ID}]]</td>
+															<td>[[${coupon.CO_NAME}]]</td>
+															<td>[[${coupon.CO_DISCOUNT}]]</td>
+															<td>[[${coupon.TYPE_COUPON}]]</td>
+															<td>[[${coupon.PROM_EVENT}]]</td>
+															<td>[[${coupon.COUPCATEGORY}]]</td>
+															
+															<!-- Edit - using "PathVariable" // Modal: editpromeve -->
+															<td><a th:href="@{/edit_co/} + ${coupon.COUPONS_ID}"
+																class="btn btn-outline-info btn-icon-text"
+																data-toggle="modal" data-target="#editcoupon"> <i
+																	class="typcn typcn-edit btn-icon-prepend"></i>Change
+															</a></td>
+															
+															<!-- Delete - using query parameter -->
+															<td><a th:href="@{/delete_co(coupon=${coupon.COUPONS_ID})}"
+																class="btn btn-outline-danger btn-icon-text"> <i
+																class="typcn typcn-delete btn-icon-prepend"></i>Delete
+															</a></td>
+															
+														</tr>
+													</tbody>
+												</table>
+											</div>
+											<div class="text-center p-2"
+												th:if="${coupons == null or coupons.empty}">
+												<span></span>  
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- End table - Coupon List -->
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- Modal: addcoupon --> 
+	<div class="modal fade" id="addcoupon" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="col-12 grid-margin stretch-card">
+					<div class="card">
+						<div class="card-body">
+							<h4 class="card-title">Add</h4>
+							<p class="card-description">New Coupon</p>
+							<!-- Object must be promEve -->
+							<form th:action="@{/save_co}" th:object="${coupon}" method="post">
+								
+								<!-- Field Name -->
+								<div class="form-group">
+									<label for="CO_NAME">Name</label> 
+									<input type="text" class="form-control" name="CO_NAME" placeholder="Name">
+								</div>
+								
+								<!-- Field Discount -->
+								<div class="form-group">
+									<label for="CO_DISCOUNT" >Discount %</label>
+									<input type="number" class="form-control" name="CO_DISCOUNT"  placeholder="Discount">
+								</div>
+								
+								<!-- Field Type -->
+								<div class="form-group">
+									<label for="TYPE_COUPON" >Type</label>
+									<input type="text" class="form-control" name="TYPE_COUPON"  placeholder="Type Coupon">
+								</div>
+								
+								<!-- Field Promotional Event -->
+								<div class="form-group">
+									<label for="PROM_EVENT" >Promotional Event</label>
+									<input type="number" class="form-control" name="PROM_EVENT"  placeholder="Prom Event">
+								</div>
+								
+								<!-- Field Cat -->
+								<div class="form-group">
+									<label for="COUPCATEGORY" >Category</label>
+									<input type="number" class="form-control" name="COUPCATEGORY"  placeholder="Coupon Category">
+								</div>
+								
+								
+								<!-- Buttons Save or Cancel -->
+								<button type="submit" class="btn btn-primary mr-2">Save</button>
+								<button type="button" class="btn btn-light" data-dismiss="modal">Cancel</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal: addcoupon -->
+
+
+	<!-- Modal: editcoupon -->
+	<div class="modal fade" id="editcoupon" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="col-12 grid-margin stretch-card">
+					<div class="card">
+						<div class="card-body">
+							<h4 class="card-title" >Coupon</h4>
+							<p class="card-description">Edit Coupon</p>
+							
+							<!-- Edit Form -->
+							<form th:action="@{/save_co}" th:object="${coupon}" method="post">
+								<input type="hidden" name="COUPONS_ID" id="COUPONS_ID">
+
+								<!--  
+								<input type="hidden" name="product_id" th:field="*{product_id}">
+								-->
+
+								<!-- Field Name  -->
+								<div class="form-group">
+									<label for="CO_NAME">Name</label> 
+									<input type="text" class="form-control" name="CO_NAME" id="CO_NAME" value="">
+									<!--
+                                    <input type="text" class="form-control" name="CO_NAME" th:field="*{CO_NAME}">
+                                    -->
+								</div>
+								<!-- Field Discount -->
+								<div class="form-group">
+									<label for="CO_DISCOUNT" >Discount</label>
+									<input type="text" class="form-control" name="CO_DISCOUNT" id="CO_DISCOUNT">
+								</div>
+								<!-- Field Type -->
+								<div class="form-group">
+									<label for="TYPE_COUPON">Type</label>
+									<input type="text" class="form-control" name="TYPE_COUPON" id="TYPE_COUPON">
+								</div>
+								<!-- Field Prom Eve -->
+								<div class="form-group">
+									<label for="PROM_EVENT" >Promotional Event</label>
+									<input type="text" class="form-control" name="PROM_EVENT" id="PROM_EVENT">
+								</div>
+								<!-- Field Category-->
+								<div class="form-group">
+									<label for="COUPCATEGORY">Category</label>
+									<input type="text" class="form-control" name="COUPCATEGORY" id="COUPCATEGORY">
+								</div>
+								<!-- Buttons Save or Cancel -->
+								<button type="submit" class="btn btn-primary mr-2">Save</button>
+								<button type="button" class="btn btn-light" data-dismiss="modal">Cancel</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal: editcoupon -->
+
+	<script type="text/javascript" th:src="@{/js/vendor.bundle.base.js}"></script>
+	<script type="text/javascript" th:src="@{/js/settings.js}"></script>
+
+</body>
+</html>

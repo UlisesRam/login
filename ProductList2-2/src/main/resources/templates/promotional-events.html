@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Promotional Events</title>
+<link th:href="@{/css/style.css}" rel="stylesheet">
+<link th:href="@{/css/font/typicons.css}" rel="stylesheet">
+</head>
+
+<body>
+	<div class="container-scroller">
+		<nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+			<div
+				class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+				<!-- change index.html -->
+				<a class="navbar-brand brand-logo" href="index.html"><img 
+					src="images/logo.png" alt="logo" /></a> <a
+					class="navbar-brand brand-logo-mini" href="index.html"><img
+					src="images/logo.png" alt="logo" /></a>
+			</div>
+			<!-- data-toggle="dropdown" -->
+			<div
+				class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+				<ul class="navbar-nav navbar-nav-right">
+					<li class="nav-item nav-profile dropdown"><a
+						class="nav-link dropdown-toggle  pl-0 pr-0" href="#"
+						data-toggle="dropdown" id="profileDropdown"> <i 
+							class="typcn typcn-user-outline mr-0"></i> <span
+							class="nav-profile-name">Evan Morales</span>
+					</a>
+						<div class="dropdown-menu dropdown-menu-right navbar-dropdown"
+							aria-labelledby="profileDropdown">
+							<!-- Logout -->
+							<a class="dropdown-item"> <i
+								class="typcn typcn-power text-primary"></i> Logout
+							</a>
+						</div></li>
+				</ul>
+				<button
+					class="navbar-toggler navbar-toggler-right d-lg-none align-self-center"
+					type="button" data-toggle="offcanvas">
+					<span class="typcn typcn-th-menu"></span>
+				</button>
+			</div>
+		</nav>
+		<div class="container-fluid page-body-wrapper">
+			<nav class="sidebar sidebar-offcanvas" id="sidebar">
+				<ul class="nav">
+					<li class="nav-item">
+						<div class="d-flex sidebar-profile">
+							<div class="sidebar-profile-name">
+								<p class="sidebar-name">Evan Morales</p>
+								<p class="sidebar-designation">Welcome</p>
+							</div>
+						</div>
+						<div class="nav-search">
+							<div class="input-group">
+								<input type="text" class="form-control"
+									placeholder="Type to search..." aria-label="search"
+									aria-describedby="search">
+								<div class="input-group-append">
+									<span class="input-group-text" id="search"> <i
+										class="typcn typcn-zoom"></i>
+									</span>
+								</div>
+							</div>
+						</div>
+						<p class="sidebar-menu-title">Dash menu</p>
+					</li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/admin}">
+							<i class="typcn typcn-tag menu-icon"></i> <span
+							class="menu-title">Products</span>
+					</a></li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/coupon}">
+							<i class="typcn typcn-film menu-icon"></i> <span
+							class="menu-title">Cupons</span>
+					</a></li>
+					<li class="nav-item"><a class="nav-link" 
+						th:href="@{/promotional-events}"> <i
+							class="typcn typcn-eye menu-icon"></i> <span class="menu-title">Promotional
+								Events</span>
+					</a></li>
+
+
+				</ul>
+			</nav>
+			
+			<!-- partial -->
+			<div class="main-panel">
+				<div class="content-wrapper">
+					<div class="row">
+						<div class="col-sm-6">
+							
+							<!-- Add button - modal: addPromEve -->
+							<div>
+								<button type="button" 
+									class="btn btn-primary btn-rounded btn-icon"
+									data-toggle="modal" data-target="#addPromEve">
+									<i class="typcn typcn-plus"></i>
+								</button>
+							</div>
+							<!-- add button -->
+							<br>
+						</div>
+					</div>
+
+					<!-- Table - Coupon List - Iterable -->
+					<div class="row">
+						<div class="col-lg-12 grid-margin stretch-card">
+							<div class="card">
+								<div class="card-body">
+									<h4 class="card-title">Promotional Events</h4>
+									<div class="table-responsive">
+										<div class="table-responsive">
+											<div th:if="${promEves != null and !promEves.empty}">
+												<table class="table table-hover">
+													<thead class="table-dark">
+														<tr>
+															<th>#</th>
+															<th>ID</th>
+															<th>Name</th>
+															<th>Start</th>
+															<th>End</th>
+															<th>Description</th>
+															<th>User Type</th>
+															<th>Status</th>
+															<th></th> <!-- edit buttom -->
+															<th></th> <!-- delete buttom -->
+														</tr>
+													</thead>
+													<!-- Iteration of coupons elements: ControllerCoupon -->
+													<tbody>
+														<tr th:each="promEve, counter : ${promEves}">
+															<td>[[${counter.count}]]</td>
+															<td>[[${promEve.PROMOTION_EVENT_ID}]]</td>
+															<td>[[${promEve.PROM_NAME}]]</td>
+															
+															<td>
+															[[${new java.text.SimpleDateFormat('dd-MMM-yyyy').format(promEve.STARTDATE)}]]
+															</td>
+															
+															<td>
+															[[${new java.text.SimpleDateFormat('dd-MMM-yyyy').format(promEve.ENDDATE)}]]
+															</td>
+															
+															<td>[[${promEve.PROM_DESCRIPTION}]]</td>
+															<td>[[${promEve.USER_TYPE}]]</td>
+
+															<td th:if="${promEve.PROMSTATUS} == off">
+																<label class="badge badge-danger">
+																	[[${promEve.PROMSTATUS}]]
+																</label>
+															</td>
+															<td th:if="${promEve.PROMSTATUS} == active">
+																<label class="badge badge-success">
+																	[[${promEve.PROMSTATUS}]]
+																</label>
+															</td>
+															
+															<!-- Edit - using "PathVariable" // Modal: editpromeve -->
+															<td><a th:href="@{/edit_pr/} + ${promEve.PROMOTION_EVENT_ID}"
+																class="btn btn-outline-info btn-icon-text"
+																data-toggle="modal" data-target="#editpromeve"> <i
+																	class="typcn typcn-edit btn-icon-prepend"></i>Change
+															</a></td>
+															<!-- Delete - using query parameter -->
+															<td><a th:href="@{/delete_pr(promEve=${promEve.PROMOTION_EVENT_ID})}"
+																class="btn btn-outline-danger btn-icon-text"> <i
+																class="typcn typcn-delete btn-icon-prepend"></i>Delete
+															</a></td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+											<div class="text-center p-2"
+												th:if="${promEvens == null or promEvens.empty}">
+												<span></span>  
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- End table - Coupon List -->
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- Modal: addPromEve --> 
+	<div class="modal fade" id="addPromEve" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="col-12 grid-margin stretch-card">
+					<div class="card">
+						<div class="card-body">
+							<h4 class="card-title" th:text="#{action.add}">Add</h4>
+							<p class="card-description">New Promotion</p>
+							<!-- Object must be promEve -->
+							<form th:action="@{/save_pr}" th:object="${promEve}" method="post">
+								
+								<!-- Field Name -->
+								<div class="form-group">
+									<label for="PROM_NAME">Name</label> 
+									<input type="text" class="form-control" name="PROM_NAME" placeholder="Name">
+								</div>
+								
+								<!-- Field Start Date -->
+								<div class="form-group">
+									<label for="STARTDATE" >Start Date</label>
+									<input type="text" class="form-control" name="STARTDATE"  placeholder="Date">
+								</div>
+								
+								<!-- Field End Date -->
+								<div class="form-group">
+									<label for="ENDDATE" >End Date</label>
+									<input type="text" class="form-control" name="ENDDATE"  placeholder="Date">
+								</div>
+								
+								<!-- Field Promotional Description -->
+								<div class="form-group">
+									<label for="PROM_DESCRIPTION" >Description</label>
+									<input type="text" class="form-control" name="PROM_DESCRIPTION"  placeholder="Description">
+								</div>
+								
+								<!-- Field Adminuser -->
+								<div class="form-group">
+									<label for="USER_TYPE" ># User</label>
+									<input type="number" class="form-control" name="USER_TYPE"  placeholder="# User Type">
+								</div>
+								
+								<!-- Field PROMSTATUS -->
+								<div class="form-group">
+									<label for="PROMSTATUS" >on / off</label>
+									<input type="text" class="form-control" name="PROMSTATUS"  placeholder="on / off">
+								</div>
+								
+								<!-- Buttons Save or Cancel -->
+								<button type="submit" class="btn btn-primary mr-2">Save</button>
+								<button type="button" class="btn btn-light" data-dismiss="modal">Cancel</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal: addPromEve -->
+
+
+	<!-- Modal: editpromeve -->
+	<div class="modal fade" id="editpromeve" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="col-12 grid-margin stretch-card">
+					<div class="card">
+						<div class="card-body">
+							<h4 class="card-title" >Promotional Events</h4>
+							<p class="card-description">Edit Promotion</p>
+							
+							<!-- Edit Form -->
+							<form th:action="@{/save_pr}" th:object="${promEve}" method="post">
+								<input type="hidden" name="PROMOTION_EVENT_ID" id="PROMOTION_EVENT_ID">
+
+								<!--  
+								<input type="hidden" name="product_id" th:field="*{product_id}">
+								-->
+
+								<!-- Field Name  -->
+								<div class="form-group">
+									<label for="PROM_NAME">Name</label> 
+									<input type="text" class="form-control" name="PROM_NAME" id="PROM_NAME" value="">
+									<!--
+                                    <input type="text" class="form-control" name="pname" th:field="*{pname}">
+                                    -->
+								</div>
+								<!-- Field Start Date -->
+								<div class="form-group">
+									<label for="STARTDATE">Start Date</label>
+									<input type="text" class="form-control" name="STARTDATE" id="STARTDATE">
+								</div>
+								<!-- Field End Date-->
+								<div class="form-group">
+									<label for="ENDDATE" >End Date</label>
+									<input type="text" class="form-control" name="ENDDATE" id="ENDDATE">
+								</div>
+								<!-- Field Description-->
+								<div class="form-group">
+									<label for="PROM_DESCRIPTION">Description</label>
+									<input type="text" class="form-control" name="PROM_DESCRIPTION" id="PROM_DESCRIPTION">
+								</div>
+								<!-- Field #Admin-->
+								<div class="form-group">
+									<label for="USER_TYPE"># User</label>
+									<input type="number" class="form-control" name="USER_TYPE" id="USER_TYPE">
+								</div>
+								<!-- Field Status-->
+								<div class="form-group">
+									<label for="PROMSTATUS">Promotional Status</label>
+									<input type="text" class="form-control" name="PROMSTATUS" id="PROMSTATUS">
+								</div>
+								<!-- Buttons Save or Cancel -->
+								<button type="submit" class="btn btn-primary mr-2">Save</button>
+								<button type="button" class="btn btn-light" data-dismiss="modal">Cancel</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal: editcoupon -->
+
+	<script type="text/javascript" th:src="@{/js/vendor.bundle.base.js}"></script>
+	<script type="text/javascript" th:src="@{/js/settings.js}"></script>
+
+</body>
+</html>
